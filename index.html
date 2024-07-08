@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prix du Bitcoin en Temps Réel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #price {
+            font-size: 2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prix du Bitcoin (BTC) en USD</h1>
+    <p id="price">Chargement...</p>
+    <script>
+        async function fetchBitcoinPrice() {
+            try {
+                const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/BTC.json');
+                const data = await response.json();
+                const price = data.bpi.USD.rate;
+                document.getElementById('price').innerText = '$' + price;
+            } catch (error) {
+                document.getElementById('price').innerText = 'Erreur de chargement';
+                console.error('Error fetching Bitcoin price:', error);
+            }
+        }
+
+        fetchBitcoinPrice();
+        setInterval(fetchBitcoinPrice, 60000); // Actualiser toutes les 60 secondes
+    </script>
+</body>
+</html>
